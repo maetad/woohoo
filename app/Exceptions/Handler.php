@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Stancl\Tenancy\Exceptions\TenantCouldNotBeIdentifiedOnDomainException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,7 +25,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        TenantCouldNotBeIdentifiedOnDomainException::class,
     ];
 
     /**
@@ -61,7 +63,9 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         return match (true) {
-            $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException => response('', Response::HTTP_NOT_FOUND),
+            $e instanceof NotFoundHttpException => response('', Response::HTTP_NOT_FOUND),
+            $e instanceof TenantCouldNotBeIdentifiedOnDomainException => response('', Response::HTTP_NOT_FOUND),
+
             default => parent::render($request, $e),
         };
     }
