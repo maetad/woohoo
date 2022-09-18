@@ -46,6 +46,7 @@ class EventControllerTest extends TestCase
             Request::METHOD_POST,
             [
                 'name' => 'event-name',
+                'detail' => 'event-detail',
                 'status' => EventStatus::INITIATE->value,
             ],
         );

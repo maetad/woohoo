@@ -31,6 +31,7 @@ class EventController extends Controller
     {
         $event = new Event;
         $event->name = $request->input('name');
+        $event->detail = $request->input('detail');
         $event->status = $request->input('status');
         $event->save();
 
