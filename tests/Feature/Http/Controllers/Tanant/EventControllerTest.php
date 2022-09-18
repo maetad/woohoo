@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Tanant;
 use App\Enums\EventStatus;
 use App\Http\Controllers\Tanant\EventController;
 use App\Http\Requests\Tanant\Event\CreateRequest;
+use App\Http\Requests\Tanant\Event\UpdateRequest;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -83,5 +84,40 @@ class EventControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
         $this->assertEquals($event->id, json_decode($response->content())?->id);
+    }
+
+    /**
+     * Test update.
+     *
+     * @return void
+     */
+    public function test_update_should_update_the_event()
+    {
+        $event = Event::factory()->create();
+
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+        $request = UpdateRequest::create(
+            '',
+            Request::METHOD_PUT,
+            [
+                'name' => 'update-event-name',
+                'detail' => 'update-event-detail',
+                'status' => EventStatus::PRE_EVENT->value,
+                'dates' => [
+                    ['start' => $today, 'end' => $tomorrow]
+                ],
+            ],
+        );
+        $controller = new EventController;
+        $response = $controller->update($request, $event);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
+        $this->assertStringContainsString('update-event-name', $response->content());
+        $this->assertStringContainsString('update-event-detail', $response->content());
+        $this->assertStringContainsString($today->jsonSerialize(), $response->content());
+        $this->assertStringContainsString($tomorrow->jsonSerialize(), $response->content());
+        $this->assertStringContainsString(EventStatus::PRE_EVENT->value, $response->content());
     }
 }
