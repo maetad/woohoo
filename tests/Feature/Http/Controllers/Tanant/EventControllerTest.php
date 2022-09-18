@@ -68,4 +68,20 @@ class EventControllerTest extends TestCase
         $this->assertStringContainsString($tomorrow->jsonSerialize(), $response->content());
         $this->assertStringContainsString(EventStatus::INITIATE->value, $response->content());
     }
+
+    /**
+     * Test show.
+     *
+     * @return void
+     */
+    public function test_show_should_return_correct_event()
+    {
+        $event = Event::factory()->create();
+        $controller = new EventController;
+        $response = $controller->show($event);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
+        $this->assertEquals($event->id, json_decode($response->content())?->id);
+    }
 }

@@ -38,4 +38,15 @@ class EventController extends Controller
 
         return response()->json($event, Response::HTTP_CREATED);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Event $event)
+    {
+        return response()->json($event);
+    }
 }
