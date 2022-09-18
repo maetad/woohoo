@@ -120,4 +120,20 @@ class EventControllerTest extends TestCase
         $this->assertStringContainsString($tomorrow->jsonSerialize(), $response->content());
         $this->assertStringContainsString(EventStatus::PRE_EVENT->value, $response->content());
     }
+
+    /**
+     * Test destroy.
+     *
+     * @return void
+     */
+    public function test_destroy_should_return_no_content()
+    {
+        $event = Event::factory()->create();
+        $controller = new EventController;
+        $response = $controller->destroy($event);
+
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->status());
+        $this->assertNull(Event::find($event->id));
+    }
 }
