@@ -16,7 +16,7 @@ use Tests\TestCase;
 
 class EventControllerTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     protected $tenancy = true;
 
