@@ -3,7 +3,7 @@
 namespace Tests\Unit\Casts;
 
 use App\Casts\EventDateCast;
-use App\Serializers\EventDateSerializer;
+use App\ValueObjects\EventDate;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -26,7 +26,7 @@ class EventDateCastTest extends TestCase
         $cast = $caster->get($model, 'dates', $value, $attributes);
 
         $this->assertInstanceOf(Collection::class, $cast);
-        $this->assertInstanceOf(EventDateSerializer::class, $cast->first());
+        $this->assertInstanceOf(EventDate::class, $cast->first());
     }
     /**
      * Test set.
@@ -39,8 +39,8 @@ class EventDateCastTest extends TestCase
         $tomorrow = new Carbon('2022-01-01 19:00:00');
         $model = $this->createMock(Model::class);
         $value = collect([
-            new EventDateSerializer(),
-            new EventDateSerializer($today, $tomorrow),
+            new EventDate(),
+            new EventDate($today, $tomorrow),
         ]);
 
         $attributes = [];

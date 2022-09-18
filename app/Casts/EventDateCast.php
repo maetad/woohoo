@@ -3,6 +3,7 @@
 namespace App\Casts;
 
 use App\Serializers\EventDateSerializer;
+use App\ValueObjects\EventDate;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
@@ -21,7 +22,7 @@ class EventDateCast implements CastsAttributes
     {
         return collect(json_decode($value, true))
             ->map(
-                fn ($date) => new EventDateSerializer($date['start'] ?? null, $date['end'] ?? null)
+                fn ($date) => new EventDate($date['start'] ?? null, $date['end'] ?? null)
             );
     }
 
