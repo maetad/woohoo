@@ -33,6 +33,7 @@ class EventController extends Controller
         $event->name = $request->input('name');
         $event->detail = $request->input('detail');
         $event->status = $request->input('status');
+        $event->dates = $request->input('dates', []);
         $event->save();
 
         return response()->json($event, Response::HTTP_CREATED);

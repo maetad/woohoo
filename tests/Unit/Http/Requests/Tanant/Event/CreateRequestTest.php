@@ -20,6 +20,8 @@ class CreateRequestTest extends TestCase
         $request = new CreateRequest;
         $this->assertEquals([
             'name' => 'required',
+            'dates.*.start' => 'date',
+            'dates.*.end' => 'date',
             'status' => Rule::in(EventStatus::cases()),
         ], $request->rules());
     }
