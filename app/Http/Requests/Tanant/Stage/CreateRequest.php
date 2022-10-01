@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Tanant\Event;
+namespace App\Http\Requests\Tanant\Stage;
 
-use App\Enums\EventStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,9 +26,6 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'dates.*.start' => 'date',
-            'dates.*.end' => 'date',
-            'status' => Rule::in(array_column(EventStatus::cases(), 'name')),
         ];
     }
 }
