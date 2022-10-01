@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Requests\Tanant\Stage;
+namespace Tests\Unit\Http\Requests\Tanant\Stage;
 
 use App\Http\Requests\Tanant\Stage\UpdateRequest;
 use PHPUnit\Framework\TestCase;

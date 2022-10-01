@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers\Tanant;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Requests\LoginRequest;

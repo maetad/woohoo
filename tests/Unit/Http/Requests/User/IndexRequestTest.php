@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Requests\User;
+namespace Tests\Unit\Http\Requests\User;
 
 use App\Http\Requests\User\IndexRequest;
 use PHPUnit\Framework\TestCase;
