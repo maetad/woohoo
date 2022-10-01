@@ -16,6 +16,7 @@ class StoreRequestTest extends TestCase
         $this->assertEquals([
             'name' => 'required',
             'email' => [
+                'email',
                 'required',
                 new Unique(User::class, 'email'),
             ],

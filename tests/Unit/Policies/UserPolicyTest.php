@@ -68,11 +68,10 @@ class UserPolicyTest extends TestCase
     public function test_it_should_return_deny_when_delete_current_user()
     {
         $this->target->id = 1;
-        $response = $this->policy->delete($this->user, $this->target);
 
         $this->assertEquals(
-            HttpResponse::HTTP_NOT_ACCEPTABLE,
-            $response->code()
+            Response::deny(),
+            $this->policy->delete($this->user, $this->target)
         );
     }
 
@@ -86,11 +85,9 @@ class UserPolicyTest extends TestCase
 
     public function test_it_should_return_deny_when_force_delete()
     {
-        $response = $this->policy->forceDelete($this->user, $this->target);
-
         $this->assertEquals(
-            HttpResponse::HTTP_FORBIDDEN,
-            $response->code()
+            Response::deny(),
+            $this->policy->forceDelete($this->user, $this->target)
         );
     }
 }

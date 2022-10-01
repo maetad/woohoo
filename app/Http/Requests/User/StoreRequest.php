@@ -19,6 +19,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => [
+                'email',
                 'required',
                 new Unique(User::class, 'email'),
             ],

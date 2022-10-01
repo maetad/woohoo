@@ -67,7 +67,7 @@ class UserPolicy
     public function delete(User $user, User $model)
     {
         return $user->id === $model->id ?
-            Response::deny('You are not allow to commit suicide', HttpResponse::HTTP_NOT_ACCEPTABLE) :
+            Response::deny() :
             Response::allow();
     }
 
@@ -92,6 +92,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return Response::deny('Force delete is forbidden', HttpResponse::HTTP_FORBIDDEN);
+        return Response::deny();
     }
 }
