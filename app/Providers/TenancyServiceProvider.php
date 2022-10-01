@@ -16,7 +16,7 @@ use Stancl\Tenancy\Middleware;
 class TenancyServiceProvider extends ServiceProvider
 {
     // By default, no namespace is used to support the callable array syntax.
-    public static string $controllerNamespace = '';
+    public static string $controllerNamespace = \App\Http\Controllers\Tanant::class;
 
     public function events()
     {
