@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Requests;
+namespace Tests\Unit\Http\Requests;
 
 use App\Http\Requests\LoginRequest;
 use PHPUnit\Framework\TestCase;

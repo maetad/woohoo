@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Requests\Tanant\Event;
+namespace Tests\Unit\Http\Requests\Tanant\Event;
 
 use App\Enums\EventStatus;
 use App\Http\Requests\Tanant\Event\CreateRequest;

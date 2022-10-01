@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Resources;
+namespace Tests\Unit\Http\Resources;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
