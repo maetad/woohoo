@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Http\Requests\Tanant\Event;
+namespace Tests\Unit\Casts;
 
-use App\Enums\EventStatus;
-use App\Http\Requests\Tanant\Event\CreateRequest;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\Tanant\Stage\CreateRequest;
 use PHPUnit\Framework\TestCase;
 
 class CreateRequestTest extends TestCase
@@ -20,9 +18,6 @@ class CreateRequestTest extends TestCase
         $request = new CreateRequest;
         $this->assertEquals([
             'name' => 'required',
-            'dates.*.start' => 'date',
-            'dates.*.end' => 'date',
-            'status' => Rule::in(array_column(EventStatus::cases(), 'name')),
         ], $request->rules());
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tanant\Event\CreateRequest;
 use App\Http\Requests\Tanant\Event\UpdateRequest;
 use App\Models\Event;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class EventController extends Controller

@@ -26,5 +26,8 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', fn () => response()->json(['message' => sprintf('Hey %s, welcome to woohoo', tenant('id'))]));
 
-    Route::apiResource('events', EventController::class);
+    Route::apiResources([
+        'events' => EventController::class,
+        'events.stages' => EventStageController::class,
+    ]);
 });

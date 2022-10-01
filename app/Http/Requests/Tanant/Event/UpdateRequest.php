@@ -29,7 +29,7 @@ class UpdateRequest extends FormRequest
             'name' => 'required',
             'dates.*.start' => 'date',
             'dates.*.end' => 'date',
-            'status' => Rule::in(EventStatus::cases()),
+            'status' => Rule::in(array_column(EventStatus::cases(), 'name')),
         ];
     }
 }
