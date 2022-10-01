@@ -5,9 +5,10 @@ on:
       - main
       - develop
   pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  phpunit:
+  tests:
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
@@ -24,13 +25,48 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install composer dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Prepare Laravel Application
-      run: |
-        cp .env.example .env
-        php artisan key:generate
+      - name: Checkout sources
+        uses: actions/checkout@v3
 
-    - name: Run Testsuite
-      run: php artisan test
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer files
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-8.1-9.*
+          restore-keys: |
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-8.1-9.*
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-8.1
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}
+            ${{ runner.os }}-composer-v4-
+
+      - name: Install dependencies with Laravel 9.*
+        run: |
+          export COMPOSER_ROOT_VERSION=dev-main
+          composer require "illuminate/support:9.*" --no-update
+          composer update --no-interaction --no-progress --prefer-dist
+
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run test suite
+        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --log-junit ./results/results.xml --coverage-clover ./results/coverage.xml
+
+      - name: Fix results files
+        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" *.xml
+        working-directory: results
+
+      - name: Store results
+        uses: actions/upload-artifact@v3
+        with:
+          name: results
+          path: results
+

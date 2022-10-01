@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tanant\EventController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -24,4 +25,6 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get('/', fn () => response()->json(['message' => sprintf('Hey %s, welcome to woohoo', tenant('id'))]));
+
+    Route::apiResource('events', EventController::class);
 });
