@@ -19,3 +19,4 @@ yarn-error.log
 !database/migrations/
 !database/seeders/
 /results
+.DS_Store

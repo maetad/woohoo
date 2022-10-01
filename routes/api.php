@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('auth/login', 'AuthenticationController@login');
 
-Route::get('', fn () => response()->json(['message' => 'welcome to woohoo']));
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::apiResources([
+        'users' => 'UserController',
+    ]);
+});
