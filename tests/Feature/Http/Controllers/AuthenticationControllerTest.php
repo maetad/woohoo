@@ -2,17 +2,11 @@
 
 namespace Tests\Feature\Http\Controllers\Tanant;
 
-use App\Enums\EventStatus;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\Tanant\Event\CreateRequest;
-use App\Http\Requests\Tanant\Event\UpdateRequest;
-use App\Models\Event;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
