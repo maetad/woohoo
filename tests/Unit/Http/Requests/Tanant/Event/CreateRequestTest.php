@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Casts;
+namespace Tests\Http\Requests\Tanant\Event;
 
 use App\Enums\EventStatus;
 use App\Http\Requests\Tanant\Event\CreateRequest;
@@ -22,7 +22,7 @@ class CreateRequestTest extends TestCase
             'name' => 'required',
             'dates.*.start' => 'date',
             'dates.*.end' => 'date',
-            'status' => Rule::in(EventStatus::cases()),
+            'status' => Rule::in(array_column(EventStatus::cases(), 'name')),
         ], $request->rules());
     }
 }
