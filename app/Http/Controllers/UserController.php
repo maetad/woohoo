@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -16,14 +14,14 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @param  IndexRequest  $request
-     * @return UserCollection
+     * @return \App\Http\Resources\UserCollection
      */
     public function index(IndexRequest $request)
     {
         $content = User::filter($request->only(['keyword']))
             ->paginate($request->input('per_page', 15));
 
-        return new UserCollection($content);
+        return UserResource::collection($content);
     }
 
     /**
