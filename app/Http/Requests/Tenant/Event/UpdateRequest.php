@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Tanant\Event;
+namespace App\Http\Requests\Tenant\Event;
 
 use App\Enums\EventStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

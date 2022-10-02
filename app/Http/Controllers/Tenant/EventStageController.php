@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Tanant;
+namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Tanant\Stage\CreateRequest;
-use App\Http\Requests\Tanant\Stage\UpdateRequest;
+use App\Http\Requests\Tenant\Stage\CreateRequest;
+use App\Http\Requests\Tenant\Stage\UpdateRequest;
 use App\Models\Event;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

@@ -1,23 +1,23 @@
 <?php
 
-namespace Tests\Unit\Http\Requests\Tanant\Event;
+namespace Tests\Unit\Http\Requests\Tenant\Event;
 
 use App\Enums\EventStatus;
-use App\Http\Requests\Tanant\Event\UpdateRequest;
+use App\Http\Requests\Tenant\Event\CreateRequest;
 use Illuminate\Validation\Rule;
 use PHPUnit\Framework\TestCase;
 
-class UpdateRequestTest extends TestCase
+class CreateRequestTest extends TestCase
 {
     public function test_authorize()
     {
-        $request = new UpdateRequest;
+        $request = new CreateRequest;
         $this->assertTrue($request->authorize());
     }
 
     public function test_rules()
     {
-        $request = new UpdateRequest;
+        $request = new CreateRequest;
         $this->assertEquals([
             'name' => 'required',
             'dates.*.start' => 'date',

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Http\Requests\Tanant\Stage;
+namespace Tests\Unit\Http\Requests\Tenant\Stage;
 
-use App\Http\Requests\Tanant\Stage\UpdateRequest;
+use App\Http\Requests\Tenant\Stage\UpdateRequest;
 use PHPUnit\Framework\TestCase;
 
 class UpdateRequestTest extends TestCase

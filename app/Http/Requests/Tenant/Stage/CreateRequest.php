@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Tanant\Stage;
+namespace App\Http\Requests\Tenant\Stage;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
