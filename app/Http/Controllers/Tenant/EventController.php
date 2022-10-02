@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Tanant;
+namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Tanant\Event\CreateRequest;
-use App\Http\Requests\Tanant\Event\UpdateRequest;
+use App\Http\Requests\Tenant\Event\CreateRequest;
+use App\Http\Requests\Tenant\Event\UpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Response;
 

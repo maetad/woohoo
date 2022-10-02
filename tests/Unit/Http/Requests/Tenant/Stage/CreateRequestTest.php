@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Http\Requests\Tanant\Stage;
+namespace Tests\Unit\Http\Requests\Tenant\Stage;
 
-use App\Http\Requests\Tanant\Stage\CreateRequest;
+use App\Http\Requests\Tenant\Stage\CreateRequest;
 use PHPUnit\Framework\TestCase;
 
 class CreateRequestTest extends TestCase

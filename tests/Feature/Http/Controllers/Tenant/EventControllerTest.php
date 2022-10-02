@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers\Tanant;
+namespace Tests\Feature\Http\Controllers\Tenant;
 
-use App\Http\Controllers\Tanant\EventStageController;
-use App\Http\Requests\Tanant\Stage\CreateRequest;
-use App\Http\Requests\Tanant\Stage\UpdateRequest;
+use App\Enums\EventStatus;
+use App\Http\Controllers\Tenant\EventController;
+use App\Http\Requests\Tenant\Event\CreateRequest;
+use App\Http\Requests\Tenant\Event\UpdateRequest;
 use App\Models\Event;
-use App\Models\Stage;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
@@ -14,20 +14,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class EventStageControllerTest extends TestCase
+class EventControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $tenancy = true;
-
-    protected Event $event;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->event = Event::factory()->create();
-    }
 
     /**
      * Test index with default request.
@@ -36,9 +27,9 @@ class EventStageControllerTest extends TestCase
      */
     public function test_index()
     {
-        Stage::factory()->count(2)->for($this->event)->create();
-        $controller = new EventStageController;
-        $response = $controller->index($this->event);
+        Event::factory()->count(2)->create();
+        $controller = new EventController;
+        $response = $controller->index();
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
@@ -52,21 +43,31 @@ class EventStageControllerTest extends TestCase
      */
     public function test_store_should_return_created()
     {
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+
         $request = CreateRequest::create(
             '',
             Request::METHOD_POST,
             [
-                'name' => 'stage-name',
-                'detail' => 'stage-detail',
+                'name' => 'event-name',
+                'detail' => 'event-detail',
+                'status' => EventStatus::INITIATE->value,
+                'dates' => [
+                    ['start' => $today, 'end' => $tomorrow]
+                ],
             ],
         );
-        $controller = new EventStageController;
-        $response = $controller->store($request, $this->event);
+        $controller = new EventController;
+        $response = $controller->store($request);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->status());
-        $this->assertStringContainsString('stage-name', $response->content());
-        $this->assertStringContainsString('stage-detail', $response->content());
+        $this->assertStringContainsString('event-name', $response->content());
+        $this->assertStringContainsString('event-detail', $response->content());
+        $this->assertStringContainsString($today->jsonSerialize(), $response->content());
+        $this->assertStringContainsString($tomorrow->jsonSerialize(), $response->content());
+        $this->assertStringContainsString(EventStatus::INITIATE->value, $response->content());
     }
 
     /**
@@ -77,13 +78,12 @@ class EventStageControllerTest extends TestCase
     public function test_show_should_return_correct_event()
     {
         $event = Event::factory()->create();
-        $stage = Stage::factory()->for($event)->create();
-        $controller = new EventStageController;
-        $response = $controller->show($event, $stage);
+        $controller = new EventController;
+        $response = $controller->show($event);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
-        $this->assertEquals($stage->id, json_decode($response->content())?->id);
+        $this->assertEquals($event->id, json_decode($response->content())?->id);
     }
 
     /**
@@ -94,23 +94,31 @@ class EventStageControllerTest extends TestCase
     public function test_update_should_update_the_event()
     {
         $event = Event::factory()->create();
-        $stage = Stage::factory()->for($event)->create();
 
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
         $request = UpdateRequest::create(
             '',
             Request::METHOD_PUT,
             [
                 'name' => 'update-event-name',
                 'detail' => 'update-event-detail',
+                'status' => EventStatus::PRE_EVENT->value,
+                'dates' => [
+                    ['start' => $today, 'end' => $tomorrow]
+                ],
             ],
         );
-        $controller = new EventStageController;
-        $response = $controller->update($request, $event, $stage);
+        $controller = new EventController;
+        $response = $controller->update($request, $event);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(JsonResponse::HTTP_OK, $response->status());
         $this->assertStringContainsString('update-event-name', $response->content());
         $this->assertStringContainsString('update-event-detail', $response->content());
+        $this->assertStringContainsString($today->jsonSerialize(), $response->content());
+        $this->assertStringContainsString($tomorrow->jsonSerialize(), $response->content());
+        $this->assertStringContainsString(EventStatus::PRE_EVENT->value, $response->content());
     }
 
     /**
@@ -121,12 +129,11 @@ class EventStageControllerTest extends TestCase
     public function test_destroy_should_return_no_content()
     {
         $event = Event::factory()->create();
-        $stage = Stage::factory()->for($event)->create();
-        $controller = new EventStageController;
-        $response = $controller->destroy($event, $stage);
+        $controller = new EventController;
+        $response = $controller->destroy($event);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->status());
-        $this->assertNull(Stage::find($stage->id));
+        $this->assertNull(Event::find($event->id));
     }
 }
