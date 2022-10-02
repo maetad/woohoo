@@ -2,16 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Http\Controllers\UserController;
-use App\Http\Requests\User\IndexRequest;
-use App\Http\Requests\User\StoreRequest;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Stage>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant>
  */
-class StageFactory extends Factory
+class TenantFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class StageFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->streetName(),
-            'detail' => $this->faker->sentence(),
+            'name' => fake()->company(),
         ];
     }
 }
