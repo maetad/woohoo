@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResources([
         'users' => 'UserController',
+        'tenants' => 'TenantController',
     ]);
 });
