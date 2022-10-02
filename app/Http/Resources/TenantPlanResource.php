@@ -4,10 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TenantResource extends JsonResource
+class TenantPlanResource extends JsonResource
 {
-    public static $wrap = false;
-
     /**
      * Transform the resource into an array.
      *
@@ -19,8 +17,7 @@ class TenantResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'plan' => new TenantPlanResource($this->resource->plan),
-            'domains' => TenantDomainResource::collection($this->resource->domains),
+            'data' => $this->data,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
         ];

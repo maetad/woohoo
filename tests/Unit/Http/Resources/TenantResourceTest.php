@@ -4,10 +4,12 @@ namespace Tests\Unit\Http\Resources;
 
 use App\Http\Resources\TenantResource;
 use App\Models\Tenant;
+use App\Models\TenantPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use PHPUnit\Framework\TestCase;
+use Stancl\Tenancy\Database\Models\Domain;
 
 class TenantResourceTest extends TestCase
 {
@@ -22,7 +24,8 @@ class TenantResourceTest extends TestCase
         $tenant->name = 'Foo Bar';
         $tenant->created_at = Carbon::now();
         $tenant->updated_at = Carbon::now();
-        $tenant->domains = collect([]);
+        $tenant->domains = collect(new Domain);
+        $tenant->plan = new TenantPlan;
 
         $this->tenant = $tenant;
     }
