@@ -7,6 +7,7 @@ use App\Http\Requests\Tenant\StoreRequest;
 use App\Http\Requests\Tenant\UpdateRequest;
 use App\Http\Resources\TenantResource;
 use App\Models\Tenant;
+use App\Models\TenantPlan;
 
 class TenantController extends Controller
 {
@@ -30,7 +31,13 @@ class TenantController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $tenant = new Tenant($request->only(['name']));
+        $plan = TenantPlan::default()->first();
+
+        $tenant = new Tenant([
+            ...$request->only(['name']),
+        ]);
+
+        $tenant->plan()->associate($plan);
         $tenant->save();
 
         return new TenantResource($tenant);

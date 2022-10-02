@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Tenant;
+use App\Models\TenantPlan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -14,13 +15,20 @@ class TenantControllerTest extends TestCase
 
     protected User $user;
     protected Tenant $tenant;
+    protected TenantPlan $plan;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
-        $this->tenant = Tenant::factory()->create();
+        $this->plan = TenantPlan::factory()->create([
+            'amount' => 0,
+            'is_default' => true,
+        ]);
+        $this->tenant = Tenant::factory()->create([
+            'plan_id' => $this->plan->id,
+        ]);
     }
 
     public function test_it_should_return_pagination_collection()
@@ -32,7 +40,7 @@ class TenantControllerTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'name', 'domains', 'created_at', 'updated_at'],
+                    '*' => ['id', 'name', 'domains', 'plan', 'created_at', 'updated_at'],
                 ],
                 'links',
                 'meta'
@@ -51,7 +59,7 @@ class TenantControllerTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_CREATED)
-            ->assertJsonStructure(['id', 'name', 'domains', 'created_at', 'updated_at']);
+            ->assertJsonStructure(['id', 'name', 'domains', 'plan', 'created_at', 'updated_at']);
     }
 
     public function test_it_should_show()
@@ -61,7 +69,7 @@ class TenantControllerTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure(['id', 'name', 'domains', 'created_at', 'updated_at']);
+            ->assertJsonStructure(['id', 'name', 'domains', 'plan', 'created_at', 'updated_at']);
     }
 
     public function test_it_should_not_show_and_return_not_found()
@@ -89,7 +97,7 @@ class TenantControllerTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure(['id', 'name', 'domains', 'created_at', 'updated_at']);
+            ->assertJsonStructure(['id', 'name', 'domains', 'plan', 'created_at', 'updated_at']);
 
         $this->assertNotEquals($this->tenant->name, $response->original->name);
     }
