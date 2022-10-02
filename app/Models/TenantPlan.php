@@ -6,7 +6,6 @@ use App\Models\Scopes\TenantPlanActive;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TenantPlan extends Model
 {
@@ -28,10 +27,5 @@ class TenantPlan extends Model
     public function scopeDefault(Builder $builder)
     {
         $builder->where('is_default', true);
-    }
-
-    public function tenant(): HasMany
-    {
-        return $this->hasMany(Tenant::class, 'plan_id');
     }
 }
