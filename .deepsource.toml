@@ -1,1 +1,22 @@
 version = 1
+
+test_patterns = ["tests/**"]
+
+exclude_patterns = [
+  "database/**",
+  "public/**",
+  "lang/**",
+  "vendor/**"
+]
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
+
+[[analyzers]]
+name = "php"
+enabled = true
+
+[[transformers]]
+name = "php-cs-fixer"
+enabled = true
